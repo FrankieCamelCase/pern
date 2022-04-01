@@ -1,1 +1,1 @@
-# pern
+# learn n' pern
