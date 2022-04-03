@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express"); 
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
@@ -6,14 +6,15 @@ const pool = require("./db");
 
 //middleware
 app.use(cors());
-app.use(express.json()); //req.body
+app.use(express.json()); //parses incoming data with JSON payload
 
+//create listener on port 5k
 app.listen(5000, () => {
     console.log("Server has started on port 5000")
 });
 
 //routes
-//create todo
+//post a todo
 app.post("/todos", async (req, res) => {
     try {
         const { description } = req.body;
@@ -23,7 +24,6 @@ app.post("/todos", async (req, res) => {
     } catch (err) {
         console.error(err.message);
     }
-
 });
 
 //get todo
@@ -40,7 +40,7 @@ app.get("/todos/:id", async (req, res) => {
 //get all to do
 app.get("/todos", async (req, res) => {
     try {
-        const allTodos = await pool.query("SELECT * FROM todo");
+        const allTodos = await pool.query("SELECT * FROM todo ORDER BY id DESC");
         res.json(allTodos.rows);
     } catch (err) {
         console.log(err.message);
@@ -67,6 +67,6 @@ app.put("/todos/:id", async (req, res) => {
 
         res.json("Todo was updated!");
     } catch (err) {
-        console.log(err.message)
+        console.error(err.message)
     }
 });
